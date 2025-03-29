@@ -1,9 +1,9 @@
 [project]
 name = "funrun"
-version = "0.1.1"
+version = "0.1.2"
 description = "funrun"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.8"
 dependencies = []
 [[project.authors]]
 name = "niuliangtao"
