@@ -3,6 +3,6 @@ revision = 1
 requires-python = ">=3.8"
 
 [[package]]
-name = "funrun"
-version = "0.1.2"
+name = "ffunrun"
+version = "0.1.3"
 source = { virtual = "." }
