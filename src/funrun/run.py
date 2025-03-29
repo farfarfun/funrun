@@ -25,7 +25,7 @@ logger = getLogger("funbuild")
 @click.command()
 def run_task():
     task_dir = os.path.join(
-        os.environ["HOME"], "/workbench", datetime.now().strftime("%Y%m%d%H%M%S")
+        os.path.expanduser("~"), "/workbench", datetime.now().strftime("%Y%m%d%H%M%S")
     )
     logger.info(f"任务主目录：{task_dir}")
     os.makedirs(task_dir, exist_ok=True)
