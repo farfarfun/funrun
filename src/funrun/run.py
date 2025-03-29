@@ -39,10 +39,10 @@ def run_task():
         run_shell(f"cd {task_dir} && sbatch config.slurm")
     elif os.path.exists("main.cpp"):
         logger.info("step2: 检测到main.cpp文件，编译")
-        run_shell(f"cd {task_dir} && g++ main.cpp -o task.app")
+        run_shell(f"cd {task_dir} && g++ main.cpp -o {task_name}-task.app")
         logger.info("step3: 编译完成，开始执行")
         run_shell(
-            f"""cd {task_dir} && nohup bash -c 'exec -a "{task_name}" ./task.app' > output.log 2>&1 &"""
+            f"""cd {task_dir} && nohup ./{task_name}-task.app > output.log 2>&1 &"""
         )
     else:
         logger.error("找不到需要提交的任务")
