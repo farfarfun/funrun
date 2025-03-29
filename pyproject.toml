@@ -1,0 +1,16 @@
+[project]
+name = "funrun"
+version = "0.1.1"
+description = "funrun"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+[[project.authors]]
+name = "niuliangtao"
+email = "farfarfun@qq.com"
+
+[project.scripts]
+funrun = "funrun.run:run_task"
+
+[tool.setuptools]
+license-files = []
