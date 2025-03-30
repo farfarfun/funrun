@@ -12,6 +12,7 @@ pwd
 sbatch config.slurm
 """
 
+import json
 import os
 from datetime import datetime
 
@@ -44,6 +45,10 @@ def run_task():
         run_shell(
             f"""cd {task_dir} && nohup ./{task_name}-task.app > output.log 2>&1 &"""
         )
+        config = {"task_name": task_name}
+        with open(f"{task_dir}/task.json", "w") as fw:
+            fw.write(json.dumps(config, indent=2))
+
     else:
         logger.error("找不到需要提交的任务")
     logger.info("任务提交完成")
