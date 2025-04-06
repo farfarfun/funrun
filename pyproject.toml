@@ -1,6 +1,6 @@
 [project]
 name = "ffunrun"
-version = "0.1.12"
+version = "0.1.13"
 description = "funrun"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -14,3 +14,9 @@ funrun = "funrun.run:run_task"
 
 [tool.setuptools]
 license-files = []
+
+[tool.uv]
+[[tool.uv.index]]
+name = "packages-pypi"
+url = "https://packages.aliyun.com/5fc5eb115dbd287006145e5f/pypi/funpy"
+
