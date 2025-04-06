@@ -31,7 +31,7 @@ def run_task():
     logger.info(f"任务主目录：{task_dir}")
     os.makedirs(task_dir, exist_ok=True)
     logger.info(f"step1: 复制文件到任务主目录：{task_dir}")
-    run_shell(f"cp -r *.cpp *.h *.sh *.slurm *.f90 *.dat {task_dir} 2>/dev/null")
+    run_shell(f"cp -r *.cpp *.h *.sh *.slurm *.f90 *.dat *.json {task_dir} 2>/dev/null")
 
     task_name = "lbm-" + input("请输入任务名字")
 
