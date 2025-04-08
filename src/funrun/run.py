@@ -1,30 +1,15 @@
-"""
-#!/bin/bash
-task_root='/work/home/liuc12/workbench'
-timestamp=$(date +"%Y%m%d%H%M%S")
-task_dir="$task_root/task_$timestamp"
-
-mkdir "$task_dir"
-cp -r *.cpp *.h *.sh *.slurm *.f90 *.dat  $task_dir 2>/dev/null
-cd "$task_dir"
-pwd
-#ls -al
-sbatch config.slurm
-"""
-
 import json
 import os
 from datetime import datetime
 
-import click
+import typer
 from funbuild.shell import run_shell
 from funutil import getLogger
 
 logger = getLogger("funbuild")
 
 
-@click.command()
-def run_task():
+def run():
     task_dir = os.path.join(
         os.path.expanduser("~"), "workbench", datetime.now().strftime("%Y%m%d%H%M%S")
     )
@@ -52,3 +37,7 @@ def run_task():
     else:
         logger.error("找不到需要提交的任务")
     logger.info("任务提交完成")
+
+
+def run_task():
+    typer.run(run)

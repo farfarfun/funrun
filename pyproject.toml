@@ -1,10 +1,10 @@
 [project]
 name = "ffunrun"
-version = "0.1.13"
+version = "0.1.14"
 description = "funrun"
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = [ "click>=8.1.8", "funbuild>=1.5.86", "funutil>=1.0.48",]
+dependencies = [ "funbuild>=1.5.86", "funutil>=1.0.48",]
 [[project.authors]]
 name = "niuliangtao"
 email = "farfarfun@qq.com"
