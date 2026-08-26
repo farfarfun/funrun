@@ -3,10 +3,10 @@ import os
 from datetime import datetime
 
 import typer
-from funbuild.shell import run_shell
+from funshell import run_shell
 from funutil import getLogger
 
-logger = getLogger("funbuild")
+logger = getLogger("funrun")
 
 
 def run():
