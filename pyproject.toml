@@ -4,7 +4,7 @@ version = "0.1.14"
 description = "funrun"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [ "funshell>=1.0.19", "funutil>=1.0.48",]
+dependencies = [ "funshell>=1.0.19", "funutil>=1.0.48", "typer>=0.9.0",]
 [[project.authors]]
 name = "niuliangtao"
 email = "farfarfun@qq.com"
@@ -13,7 +13,7 @@ email = "farfarfun@qq.com"
 funrun = "funrun.run:run_task"
 
 [dependency-groups]
-dev = [ "funbuild>=1.6.65",]
+dev = [ "funbuild>=1.6.65", "pytest>=7.0.0",]
 
 [tool.setuptools]
 license-files = []
