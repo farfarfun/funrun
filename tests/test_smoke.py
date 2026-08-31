@@ -106,9 +106,7 @@ def test_run_main_cpp_branch(monkeypatch):
     monkeypatch.setattr(run_module, "run_shell", run_shell_mock)
     monkeypatch.setattr(run_module.os, "makedirs", mock.Mock())
     monkeypatch.setattr("builtins.input", lambda *_a, **_k: "test-task")
-    monkeypatch.setattr(
-        run_module.os.path, "exists", lambda path: path == "main.cpp"
-    )
+    monkeypatch.setattr(run_module.os.path, "exists", lambda path: path == "main.cpp")
 
     logger_mock = mock.Mock()
     monkeypatch.setattr(run_module, "logger", logger_mock)

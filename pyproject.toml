@@ -1,22 +1,38 @@
 [project]
 name = "ffunrun"
-version = "0.1.15"
+version = "0.1.16"
 description = "funrun"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [ "funshell>=1.0.19", "funutil>=1.0.48", "typer>=0.9.0",]
+license = "MIT"
+license-files = ["LICENSE"]
 [[project.authors]]
-name = "niuliangtao"
-email = "farfarfun@qq.com"
+name = "牛哥"
+email = "niuliangtao@qq.com"
 
+[[project.authors]]
+name = "farfarfun"
+email = "farfarfun@qq.com"
 [project.scripts]
 funrun = "funrun.run:run_task"
 
+[[project.maintainers]]
+name = "牛哥"
+email = "niuliangtao@qq.com"
+
+[[project.maintainers]]
+name = "farfarfun"
+email = "farfarfun@qq.com"
+
+[project.urls]
+Organization = "https://github.com/farfarfun"
+Repository = "https://github.com/farfarfun/funrun"
+Releases = "https://github.com/farfarfun/funrun/releases"
 [dependency-groups]
 dev = [ "funbuild>=1.6.65", "pytest>=7.0.0",]
 
 [tool.setuptools]
-license-files = []
 
 [build-system]
 requires = ["hatchling"]
@@ -24,9 +40,4 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/funrun"]
-
-[tool.uv]
-[[tool.uv.index]]
-name = "packages-pypi"
-url = "https://packages.aliyun.com/5fc5eb115dbd287006145e5f/pypi/funpy"
 
