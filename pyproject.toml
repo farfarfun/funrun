@@ -1,10 +1,10 @@
 [project]
-name = "ffunrun"
+name = "funrun"
 version = "0.1.16"
 description = "funrun"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [ "funshell>=1.0.19", "funutil>=1.0.48", "typer>=0.9.0",]
+dependencies = [ "farlog>=1.1.7", "funshell>=1.0.19",]
 license = "MIT"
 license-files = ["LICENSE"]
 [[project.authors]]
@@ -30,7 +30,7 @@ Organization = "https://github.com/farfarfun"
 Repository = "https://github.com/farfarfun/funrun"
 Releases = "https://github.com/farfarfun/funrun/releases"
 [dependency-groups]
-dev = [ "funbuild>=1.6.65", "pytest>=7.0.0",]
+dev = [ "funbuild>=1.6.66", "pytest>=8.0.0",]
 
 [tool.setuptools]
 
@@ -40,4 +40,3 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/funrun"]
-

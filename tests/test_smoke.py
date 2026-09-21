@@ -1,4 +1,4 @@
-"""轻量冒烟测试（smoke tests）——非详尽单测。
+"""funrun 公共 API 的轻量测试。
 
 funrun 是一个很小的 CLI 工具包：唯一的功能模块 `funrun.run` 会把当前目录下的任务文件
 拷贝到 ~/workbench/<timestamp> 下，然后根据是否存在 config.slurm / main.cpp 决定
@@ -11,7 +11,7 @@ funrun 是一个很小的 CLI 工具包：唯一的功能模块 `funrun.run` 会
 2. CLI 入口（`funrun` = funrun.run:run_task）在 --help 下能正常退出。
 3. 核心函数 run() 在三种分支（有 config.slurm / 有 main.cpp / 都没有）下，
    在打桩掉所有外部副作用（run_shell、os.makedirs、input、文件写入）后可以正常跑完，
-   不抛异常。
+并验证没有任务时 CLI 返回失败状态。
 """
 
 import subprocess
@@ -47,7 +47,7 @@ def test_cli_entrypoint_help():
     assert result.returncode == 0, (
         f"CLI --help 未能正常退出，stdout={result.stdout!r} stderr={result.stderr!r}"
     )
-    assert "Usage" in result.stdout
+    assert "usage:" in result.stdout
 
 
 def test_run_no_task_files_found(monkeypatch, tmp_path):
@@ -66,7 +66,7 @@ def test_run_no_task_files_found(monkeypatch, tmp_path):
     logger_mock = mock.Mock()
     monkeypatch.setattr(run_module, "logger", logger_mock)
 
-    run_module.run()
+    assert run_module.run() is False
 
     logger_mock.error.assert_called_once()
     run_module.run_shell.assert_called_once()

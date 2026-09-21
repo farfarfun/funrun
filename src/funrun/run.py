@@ -1,15 +1,20 @@
+import argparse
 import json
 import os
 from datetime import datetime
 
-import typer
 from funshell import run_shell
-from funutil import getLogger
+from farlog import getLogger
 
 logger = getLogger("funrun")
 
 
-def run():
+def run() -> bool:
+    """复制并提交当前目录中的 Slurm 或 C++ 任务。
+
+    Returns:
+        找到并提交任务时返回 True，否则返回 False。
+    """
     task_dir = os.path.join(
         os.path.expanduser("~"), "workbench", datetime.now().strftime("%Y%m%d%H%M%S")
     )
@@ -23,6 +28,7 @@ def run():
     if os.path.exists("config.slurm"):
         logger.info("step2: 检测到config.slurm文件，提交任务")
         run_shell(f"cd {task_dir} && sbatch config.slurm")
+        return True
     elif os.path.exists("main.cpp"):
         logger.info("step2: 检测到main.cpp文件，编译")
         run_shell(f"cd {task_dir} && g++ main.cpp -o {task_name}-task.app")
@@ -33,11 +39,16 @@ def run():
         config = {"task_name": task_name}
         with open(f"{task_dir}/task.json", "w") as fw:
             fw.write(json.dumps(config, indent=2))
+        return True
 
     else:
         logger.error("找不到需要提交的任务")
-    logger.info("任务提交完成")
+        return False
 
 
-def run_task():
-    typer.run(run)
+def run_task() -> int:
+    """启动 funrun 命令行入口，并在任务失败时返回非零退出码。"""
+
+    parser = argparse.ArgumentParser(description="提交 Slurm 或 C++ 任务")
+    parser.parse_args()
+    return 0 if run() else 1
