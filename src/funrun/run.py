@@ -1,54 +1,89 @@
 import argparse
 import json
-import os
-from datetime import datetime
+import shutil
+from datetime import UTC, datetime
+from pathlib import Path
 
-from funshell import run_shell
 from farlog import getLogger
+from funshell import run_shell
 
 logger = getLogger("funrun")
 
+TASK_SUFFIXES = {".cpp", ".h", ".sh", ".slurm", ".f90", ".dat", ".json"}
 
-def run() -> bool:
-    """复制并提交当前目录中的 Slurm 或 C++ 任务。
+
+class TaskCommandError(RuntimeError):
+    """外部任务命令执行失败。"""
+
+
+def _run_command(command: str, cwd: Path, action: str) -> None:
+    result = run_shell(command, cwd=str(cwd))
+    if result != "0":
+        raise TaskCommandError(
+            f"{action}失败，退出状态={result}，工作目录={cwd}，命令={command}"
+        )
+
+
+def run(source_dir: Path | None = None, workbench_dir: Path | None = None) -> bool:
+    """复制并提交指定目录中的 Slurm 或 C++ 任务。
+
+    Args:
+        source_dir: 任务源目录，默认使用当前目录。
+        workbench_dir: 任务工作目录根路径，默认使用 ``~/workbench``。
 
     Returns:
-        找到并提交任务时返回 True，否则返回 False。
+        找到并提交任务时返回 True，没有任务入口文件时返回 False。
+
+    Raises:
+        OSError: 创建目录或复制任务文件失败。
+        TaskCommandError: Slurm、编译或启动命令失败。
+        ValueError: C++ 任务名称为空或包含不安全字符。
     """
-    task_dir = os.path.join(
-        os.path.expanduser("~"), "workbench", datetime.now().strftime("%Y%m%d%H%M%S")
-    )
-    logger.info(f"任务主目录：{task_dir}")
-    os.makedirs(task_dir, exist_ok=True)
-    logger.info(f"step1: 复制文件到任务主目录：{task_dir}")
-    run_shell(f"cp -r *.cpp *.h *.sh *.slurm *.f90 *.dat *.json {task_dir} 2>/dev/null")
-
-    task_name = "lbm-" + input("请输入任务名字")
-
-    if os.path.exists("config.slurm"):
-        logger.info("step2: 检测到config.slurm文件，提交任务")
-        run_shell(f"cd {task_dir} && sbatch config.slurm")
-        return True
-    elif os.path.exists("main.cpp"):
-        logger.info("step2: 检测到main.cpp文件，编译")
-        run_shell(f"cd {task_dir} && g++ main.cpp -o {task_name}-task.app")
-        logger.info("step3: 编译完成，开始执行")
-        run_shell(
-            f"""cd {task_dir} && nohup ./{task_name}-task.app > output.log 2>&1 &"""
-        )
-        config = {"task_name": task_name}
-        with open(f"{task_dir}/task.json", "w") as fw:
-            fw.write(json.dumps(config, indent=2))
-        return True
-
-    else:
-        logger.error("找不到需要提交的任务")
+    source_dir = source_dir or Path.cwd()
+    slurm_file = source_dir / "config.slurm"
+    cpp_file = source_dir / "main.cpp"
+    if not slurm_file.exists() and not cpp_file.exists():
+        logger.error("找不到 config.slurm 或 main.cpp")
         return False
+
+    timestamp = datetime.now(UTC).astimezone().strftime("%Y%m%d%H%M%S")
+    task_dir = (workbench_dir or Path.home() / "workbench") / timestamp
+    logger.info("任务主目录：{}", task_dir)
+    task_dir.mkdir(parents=True, exist_ok=True)
+    for path in source_dir.iterdir():
+        if path.is_file() and path.suffix in TASK_SUFFIXES:
+            shutil.copy2(path, task_dir / path.name)
+
+    if slurm_file.exists():
+        logger.info("检测到 config.slurm，提交 Slurm 任务")
+        _run_command("sbatch config.slurm", task_dir, "提交 Slurm 任务")
+        return True
+
+    task_suffix = input("请输入任务名字").strip()
+    if not task_suffix or any(
+        char not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
+        for char in task_suffix
+    ):
+        raise ValueError("任务名称只能包含字母、数字、连字符和下划线")
+
+    task_name = f"lbm-{task_suffix}"
+    app_name = f"{task_name}-task.app"
+    logger.info("检测到 main.cpp，开始编译")
+    _run_command(f"g++ main.cpp -o {app_name}", task_dir, "编译 C++ 任务")
+    logger.info("编译完成，开始后台执行")
+    _run_command(f"nohup ./{app_name} > output.log 2>&1 &", task_dir, "启动 C++ 任务")
+    (task_dir / "task.json").write_text(
+        json.dumps({"task_name": task_name}, indent=2), encoding="utf-8"
+    )
+    return True
 
 
 def run_task() -> int:
     """启动 funrun 命令行入口，并在任务失败时返回非零退出码。"""
-
     parser = argparse.ArgumentParser(description="提交 Slurm 或 C++ 任务")
     parser.parse_args()
-    return 0 if run() else 1
+    try:
+        return 0 if run() else 1
+    except (OSError, TaskCommandError, ValueError) as exc:
+        logger.error("任务提交失败：{}", exc)
+        return 1
