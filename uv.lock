@@ -60,7 +60,7 @@ wheels = [
 ]
 
 [[package]]
-name = "funrun"
+name = "farrun"
 version = "0.1.16"
 source = { editable = "." }
 dependencies = [

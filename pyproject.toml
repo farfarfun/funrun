@@ -1,7 +1,7 @@
 [project]
-name = "funrun"
+name = "farrun"
 version = "0.1.16"
-description = "funrun"
+description = "farrun"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [ "farlog>=1.1.7", "funshell>=1.0.19",]
@@ -15,7 +15,7 @@ email = "niuliangtao@qq.com"
 name = "farfarfun"
 email = "farfarfun@qq.com"
 [project.scripts]
-funrun = "funrun.run:run_task"
+farrun = "farrun.run:run_task"
 
 [[project.maintainers]]
 name = "牛哥"
@@ -27,8 +27,8 @@ email = "farfarfun@qq.com"
 
 [project.urls]
 Organization = "https://github.com/farfarfun"
-Repository = "https://github.com/farfarfun/funrun"
-Releases = "https://github.com/farfarfun/funrun/releases"
+Repository = "https://github.com/farfarfun/farrun"
+Releases = "https://github.com/farfarfun/farrun/releases"
 [dependency-groups]
 dev = [ "funbuild>=1.6.66", "pytest>=8.0.0",]
 
@@ -39,4 +39,4 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/funrun"]
+packages = ["src/farrun"]
