@@ -44,23 +44,7 @@ wheels = [
 ]
 
 [[package]]
-name = "funbuild"
-version = "1.6.80"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "farlog" },
-    { name = "funshell" },
-    { name = "pyyaml" },
-    { name = "tomlkit" },
-    { name = "typer-slim" },
-    { name = "uv" },
-]
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/45/a0/c727249c46e1eeb2d24055629727acc5d1ebf14e03546cb3c1aa256bf39d/funbuild-1.6.80-py3-none-any.whl", hash = "sha256:d4df47620a34efe8d35623633e88f1503aec93375555ec1f91a66dbf427edd70", size = 43999, upload-time = "2026-09-18T13:04:44.523Z" },
-]
-
-[[package]]
-name = "farrun"
+name = "ffunrun"
 version = "0.1.16"
 source = { editable = "." }
 dependencies = [
@@ -84,6 +68,22 @@ requires-dist = [
 dev = [
     { name = "funbuild", specifier = ">=1.6.66" },
     { name = "pytest", specifier = ">=8.0.0" },
+]
+
+[[package]]
+name = "funbuild"
+version = "1.6.80"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "farlog" },
+    { name = "funshell" },
+    { name = "pyyaml" },
+    { name = "tomlkit" },
+    { name = "typer-slim" },
+    { name = "uv" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/45/a0/c727249c46e1eeb2d24055629727acc5d1ebf14e03546cb3c1aa256bf39d/funbuild-1.6.80-py3-none-any.whl", hash = "sha256:d4df47620a34efe8d35623633e88f1503aec93375555ec1f91a66dbf427edd70", size = 43999, upload-time = "2026-09-18T13:04:44.523Z" },
 ]
 
 [[package]]

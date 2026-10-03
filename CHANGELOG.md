@@ -1,5 +1,17 @@
 # 更新日志
 
+## [未发布]
+
+### 修复
+
+- 撤销此前误将仓库 `funrun` 整体改名为 `farrun` 的提交：GitHub 仓库名仍是
+  `funrun`，源码目录、导入名、CLI 命令统一改回 `funrun`，PyPI 发布名恢复为已占用
+  收尾前实际发布中的 `ffunrun`（`funrun` 在 PyPI 上属于他人），并把 `pyproject.toml`
+  的 Repository/Releases/Homepage 和 `tool.hatch.build.targets.wheel.packages`
+  同步指回 `funrun`/`ffunrun`。
+- 补全 `.gitignore`：新增 `*.db`、`*.rar`、`.run/`、`logs/`、`.idea/`、`.vscode/`，
+  覆盖 SPEC 要求的构建产物与运行时文件忽略规则。
+
 ## [0.1.16] - 2026-09-21
 
 ### 新增
