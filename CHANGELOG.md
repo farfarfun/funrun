@@ -1,18 +1,12 @@
 # 更新日志
 
-## [未发布]
+## [0.1.17] - Unreleased
 
 ### 修复
 
-- 撤销此前误将仓库 `funrun` 整体改名为 `farrun` 的提交：GitHub 仓库名仍是
-  `funrun`，源码目录、导入名、CLI 命令统一改回 `funrun`，PyPI 发布名恢复为已占用
-  收尾前实际发布中的 `ffunrun`（`funrun` 在 PyPI 上属于他人），并把 `pyproject.toml`
-  的 Repository/Releases/Homepage 和 `tool.hatch.build.targets.wheel.packages`
-  同步指回 `funrun`/`ffunrun`。
-- 补全 `.gitignore`：新增 `*.db`、`*.rar`、`.run/`、`logs/`、`.idea/`、`.vscode/`，
-  覆盖 SPEC 要求的构建产物与运行时文件忽略规则。
-
-## [0.1.16] - 2026-09-21
+- 将仓库、PyPI 发布包、导入包和 CLI 名称统一迁移为 `farrun`，避免使用
+  `ffunrun` 这类额外字母规避 PyPI 撞名。
+- 增加从 `ffunrun` 到 `farrun` 的迁移说明；`ffunrun` 不再维护。
 
 ### 新增
 
@@ -30,4 +24,11 @@
 
 ### 废弃
 
-- 无。
+- `ffunrun` 已停止维护。
+
+## [0.1.16] - 2026-08-31
+
+### 注意
+
+- 此版本以 `ffunrun` 名称发布。其已发布 wheel 的依赖元数据与当前源码不一致，
+  不应作为当前源码构建的发布基线。
