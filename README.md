@@ -1,14 +1,14 @@
-# funrun
+# farrun
 
-`funrun` 是一个用于提交 Slurm 任务或编译并后台运行 C++ 任务的命令行工具。
+`farrun` 是一个用于提交 Slurm 任务或编译并后台运行 C++ 任务的命令行工具。
 
-> PyPI 上的 `funrun` 已被他人占用，本项目以 **`ffunrun`** 名称发布；导入名和 CLI 命令
-> 仍是 `funrun`，与仓库名一致。
+> PyPI 上的 `funrun` 已被他人占用。本项目统一使用 **`farrun`** 作为仓库、PyPI
+> 发布包、导入包和 CLI 命令名称。
 
 ## 安装
 
 ```bash
-pip install ffunrun
+pip install farrun
 ```
 
 ## 最小示例
@@ -16,7 +16,7 @@ pip install ffunrun
 在工作目录准备 `main.cpp`，然后运行：
 
 ```bash
-funrun
+farrun
 ```
 
 工具会将任务文件复制到 `~/workbench/<时间戳>/`，编译并后台启动程序；若目录中存在
@@ -26,7 +26,7 @@ funrun
 也可以直接使用 Python API：
 
 ```python
-from funrun.run import run
+from farrun.run import run
 
 if not run():
     raise SystemExit(1)
@@ -50,3 +50,14 @@ if not run():
 - 📧 联系：farfarfun@qq.com
 
 本项目基于 [MIT](LICENSE) 协议开源。
+
+## 从 ffunrun 迁移
+
+`ffunrun` 已停止维护。请卸载旧包并安装 `farrun`：
+
+```bash
+pip uninstall ffunrun
+pip install farrun
+```
+
+将脚本中的 `funrun` 导入和命令替换为 `farrun`；其余 Python API 保持不变。

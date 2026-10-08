@@ -7,7 +7,7 @@ from pathlib import Path
 from farlog import getLogger
 from funshell import run_shell
 
-logger = getLogger("funrun")
+logger = getLogger("farrun")
 
 TASK_SUFFIXES = {".cpp", ".h", ".sh", ".slurm", ".f90", ".dat", ".json"}
 
@@ -79,7 +79,7 @@ def run(source_dir: Path | None = None, workbench_dir: Path | None = None) -> bo
 
 
 def run_task() -> int:
-    """启动 funrun 命令行入口，并在任务失败时返回非零退出码。"""
+    """启动 farrun 命令行入口，并在任务失败时返回非零退出码。"""
     parser = argparse.ArgumentParser(description="提交 Slurm 或 C++ 任务")
     parser.parse_args()
     try:
