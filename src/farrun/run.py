@@ -1,9 +1,9 @@
-import argparse
 import json
 import shutil
 from datetime import UTC, datetime
 from pathlib import Path
 
+import typer
 from farlog import getLogger
 from funshell import run_shell
 
@@ -78,12 +78,22 @@ def run(source_dir: Path | None = None, workbench_dir: Path | None = None) -> bo
     return True
 
 
-def run_task() -> int:
+def _run_task() -> None:
     """启动 farrun 命令行入口，并在任务失败时返回非零退出码。"""
-    parser = argparse.ArgumentParser(description="提交 Slurm 或 C++ 任务")
-    parser.parse_args()
     try:
-        return 0 if run() else 1
+        if not run():
+            raise typer.Exit(1)
     except (OSError, TaskCommandError, ValueError) as exc:
         logger.error("任务提交失败：{}", exc)
-        return 1
+        raise typer.Exit(1) from exc
+
+
+def run_task() -> int:
+    """启动 farrun 命令行入口。"""
+    app = typer.Typer()
+    app.command()(_run_task)
+    try:
+        app()
+        return 0
+    except SystemExit as exc:
+        return int(exc.code or 0)

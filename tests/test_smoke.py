@@ -48,7 +48,7 @@ def test_cli_entrypoint_help():
     assert result.returncode == 0, (
         f"CLI --help 未能正常退出，stdout={result.stdout!r} stderr={result.stderr!r}"
     )
-    assert "usage:" in result.stdout
+    assert "usage:" in result.stdout.lower()
 
 
 def test_run_no_task_files_found(monkeypatch, tmp_path):
